@@ -7,17 +7,14 @@
 
 import Foundation
 
-enum CurrencyLayerTestRouter: Router {
+enum CurrencyLayerTestRouter: String, Router {
     case list
     case live
 
     var baseURL: String { "" }
-
-    var path: String {
-        self.rawValue
-    }
+    var path: String { "" }
 
     var url: URL? {
-        Bundle.main.url(forResource: path, withExtension: "json")
+        Bundle.main.url(forResource: rawValue, withExtension: "json")
     }
 }
