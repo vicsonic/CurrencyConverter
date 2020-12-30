@@ -34,6 +34,18 @@ class QuotesStore: Store, StorageOwner {
     private var quotesPublisher: AnyPublisher<Quotes, Error>
     private var quotesCancellable: AnyCancellable?
 
+    func loadQuotes(success: @escaping (Quotes) -> Void, failure: @escaping (Error) -> Void) {
+        fetch(key: Constants.storageQuotesKey, decoder: decoder, success: success, failure: failure)
+    }
+
+    func saveQuotes(_ quotes: Quotes) {
+        store(value: quotes, key: Constants.storageQuotesKey, encoder: encoder, success: nil, failure: nil)
+    }
+
+    func deleteQuotes() {
+        try? delete(key: Constants.storageQuotesKey)
+    }
+
     func getQuotes(success: @escaping (Quotes) -> Void, failure: @escaping (Error) -> Void) {
         guard quotesCancellable == nil else {
             DispatchQueue.main.async {

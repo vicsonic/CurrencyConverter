@@ -38,8 +38,12 @@ class CurrenciesStore: Store, StorageOwner {
         fetch(key: Constants.storageCurrenciesKey, decoder: decoder, success: success, failure: failure)
     }
 
-    private func saveCurrencies(_ currencies: Currencies) {
+    func saveCurrencies(_ currencies: Currencies) {
         store(value: currencies, key: Constants.storageCurrenciesKey, encoder: encoder, success: nil, failure: nil)
+    }
+
+    func deleteCurrencies() {
+        try? delete(key: Constants.storageCurrenciesKey)
     }
 
     func getCurrencies(success: @escaping (Currencies) -> Void, failure: @escaping (Error) -> Void) {

@@ -14,6 +14,7 @@ protocol StorageOwner {
     func fetch<T: Decodable, D: TopLevelDecoder>(key: String, decoder: D, success: ((T) -> Void)?, failure: ((Error) -> Void)?)
     func store<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E) throws
     func store<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E, success: (() -> Void)?, failure: ((Error) -> Void)?)
+    func delete(key: String) throws
 }
 
 extension StorageOwner {
@@ -63,5 +64,9 @@ extension StorageOwner {
                 }
             }
         }
+    }
+
+    func delete(key: String) throws {
+        try storage.delete(key: key)
     }
 }

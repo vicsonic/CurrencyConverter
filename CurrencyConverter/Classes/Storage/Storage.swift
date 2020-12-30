@@ -17,4 +17,8 @@ protocol WriteStorage {
     func store(value: Data, key: String, completion: ((Result<Bool, Error>) ->Void)?)
 }
 
-typealias Storage = ReadStorage & WriteStorage
+protocol DeleteStorage {
+    func delete(key: String)  throws
+}
+
+typealias Storage = ReadStorage & WriteStorage & DeleteStorage

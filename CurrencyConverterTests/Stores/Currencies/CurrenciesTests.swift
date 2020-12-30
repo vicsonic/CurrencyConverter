@@ -68,15 +68,16 @@ class CurrenciesTests: XCTestCase {
         XCTAssertTrue(remoteCurrencies!.currencies.count > 0, "Does not exist currencies in remote response")
     }
 
-    func testStorageSave() {
+    func testStorage() {
         var currenciesLoaded: Currencies?
-        let expectation = self.expectation(description: "Currencies saved")
+        let expectation = self.expectation(description: "Storage worked")
         remoteStore.getCurrencies(success: { [weak self] currencies in
             guard let self = self else { return }
             do {
                 currenciesLoaded = currencies
                 try self.remoteStore.store(value: currencies, key: self.currenciesStorageKey, encoder: JSONEncoder())
                 self.savedCurrencies = try self.remoteStore.fetch(key: self.currenciesStorageKey, decoder: JSONDecoder())
+                try self.remoteStore.delete(key: self.currenciesStorageKey)
                 expectation.fulfill()
                 debugPrint("Currencies saved: \(currencies)")
             } catch {
@@ -86,7 +87,7 @@ class CurrenciesTests: XCTestCase {
             debugPrint(error)
         })
         wait(for: [expectation], timeout: 15)
-        XCTAssertNotNil(savedCurrencies, "Currencies not saved")
+        XCTAssertNotNil(savedCurrencies, "Currencies not stored an fetched")
         XCTAssertEqual(currenciesLoaded?.currencies.count, savedCurrencies?.currencies.count)
     }
 }

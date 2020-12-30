@@ -80,3 +80,12 @@ extension DiskStorage: WriteStorage {
         }
     }
 }
+
+// MARK: - Delete Storage
+
+extension DiskStorage: DeleteStorage {
+    func delete(key: String) throws {
+        let url = path.appendingPathComponent(key)
+        try manager.removeItem(at: url)
+    }
+}

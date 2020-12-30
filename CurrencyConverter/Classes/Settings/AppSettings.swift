@@ -9,10 +9,14 @@ import Foundation
 
 class AppSettings {
 
+    private enum Constants {
+        static let storageDirectory = "CurrencyConverter"
+    }
+
     private(set) var apiSettings: APISettings?
     private var apiSettingsStore: APISettingsStore
     private(set) lazy var diskStorage: DiskStorage = {
-        DiskStorage(path: URL(fileURLWithPath: NSTemporaryDirectory()))
+        DiskStorage(path: URL(fileURLWithPath: NSTemporaryDirectory().appending(Constants.storageDirectory)))
     }()
 
     static let shared = AppSettings()
@@ -24,7 +28,7 @@ class AppSettings {
     }
 
     // MARK: - Public
-    
+
     private func load(completion: (() -> Void)?) {
         apiSettingsStore.getAPISettings(success: { [weak self] apiSettings in
             self?.apiSettings = apiSettings

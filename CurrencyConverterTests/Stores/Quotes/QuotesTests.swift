@@ -17,6 +17,9 @@ class QuotesTests: XCTestCase {
     var remoteStore: QuotesStore!
     var remoteQuotes: Quotes?
 
+    let quotesStorageKey = "Quotes"
+    var savedQuotes: Quotes?
+
     override func setUpWithError() throws {
         let expectation = self.expectation(description: "\(#function)\(#line)")
         localStore = QuotesStore()
@@ -33,6 +36,7 @@ class QuotesTests: XCTestCase {
         localQuotes = nil
         remoteStore.cancelGetQuotes()
         remoteQuotes = nil
+        savedQuotes = nil
         AppSettings.dispose()
     }
 
@@ -62,5 +66,28 @@ class QuotesTests: XCTestCase {
         wait(for: [expectation], timeout: 15)
         XCTAssertNotNil(remoteQuotes, "Remote quotes not loaded")
         XCTAssertTrue(remoteQuotes!.quotes.count > 0, "Does not exist quotes in remote response")
+    }
+
+    func testStorage() {
+        var quotesLoaded: Quotes?
+        let expectation = self.expectation(description: "Storage worked")
+        remoteStore.getQuotes(success: { [weak self] quotes in
+            guard let self = self else { return }
+            do {
+                quotesLoaded = quotes
+                try self.remoteStore.store(value: quotes, key: self.quotesStorageKey, encoder: JSONEncoder())
+                self.savedQuotes = try self.remoteStore.fetch(key: self.quotesStorageKey, decoder: JSONDecoder())
+                try self.remoteStore.delete(key: self.quotesStorageKey)
+                expectation.fulfill()
+                debugPrint("Quotes saved: \(quotes)")
+            } catch {
+                debugPrint(error)
+            }
+        }, failure: { error in
+            debugPrint(error)
+        })
+        wait(for: [expectation], timeout: 15)
+        XCTAssertNotNil(savedQuotes, "Quotes not stored an fetched")
+        XCTAssertEqual(quotesLoaded?.quotes.count, savedQuotes?.quotes.count)
     }
 }
