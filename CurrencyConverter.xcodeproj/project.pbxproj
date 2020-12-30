@@ -21,6 +21,8 @@
 		570ADC9B259C0827006970DF /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570ADC99259C0827006970DF /* DiskStorage.swift */; };
 		570ADCA0259C0D33006970DF /* StorageOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570ADC9F259C0D33006970DF /* StorageOwner.swift */; };
 		570ADCA1259C0D33006970DF /* StorageOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570ADC9F259C0D33006970DF /* StorageOwner.swift */; };
+		570ADCB3259D0B3F006970DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B18510259A841600EE615A /* Main.storyboard */; };
+		570ADCB4259D0B3F006970DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B18518259A841700EE615A /* LaunchScreen.storyboard */; };
 		572272F9259B964F00D6ACBF /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572272F8259B964F00D6ACBF /* AppSettings.swift */; };
 		572272FE259B9D1A00D6ACBF /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572272FD259B9D1A00D6ACBF /* Authenticator.swift */; };
 		57227303259BA40500D6ACBF /* CurrenciesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57227302259BA40500D6ACBF /* CurrenciesStore.swift */; };
@@ -33,10 +35,8 @@
 		57B1850B259A841600EE615A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1850A259A841600EE615A /* AppDelegate.swift */; };
 		57B1850D259A841600EE615A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1850C259A841600EE615A /* SceneDelegate.swift */; };
 		57B1850F259A841600EE615A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1850E259A841600EE615A /* ViewController.swift */; };
-		57B18512259A841600EE615A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B18510259A841600EE615A /* Main.storyboard */; };
 		57B18515259A841600EE615A /* CurrencyConverter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57B18513259A841600EE615A /* CurrencyConverter.xcdatamodeld */; };
 		57B18517259A841700EE615A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57B18516259A841700EE615A /* Assets.xcassets */; };
-		57B1851A259A841700EE615A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57B18518259A841700EE615A /* LaunchScreen.storyboard */; };
 		57B18530259A841700EE615A /* CurrencyConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1852F259A841700EE615A /* CurrencyConverterUITests.swift */; };
 		57B18546259A883A00EE615A /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B18545259A883A00EE615A /* HTTPMethod.swift */; };
 		57B1854E259A887500EE615A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B1854D259A887500EE615A /* Router.swift */; };
@@ -173,6 +173,49 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
+		570ADCA5259D09A4006970DF /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				570ADCA8259D0A05006970DF /* Main */,
+				570ADCA7259D09FC006970DF /* Launch */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		570ADCA6259D09BA006970DF /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				57B18516259A841700EE615A /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		570ADCA7259D09FC006970DF /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				57B18518259A841700EE615A /* LaunchScreen.storyboard */,
+			);
+			path = Launch;
+			sourceTree = "<group>";
+		};
+		570ADCA8259D0A05006970DF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				57B1850E259A841600EE615A /* ViewController.swift */,
+				57B18510259A841600EE615A /* Main.storyboard */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		570ADCA9259D0A15006970DF /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				57B1850A259A841600EE615A /* AppDelegate.swift */,
+				57B1850C259A841600EE615A /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
 		572272F7259B963A00D6ACBF /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,16 +263,12 @@
 		57B18509259A841600EE615A /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
+				570ADCA9259D0A15006970DF /* AppDelegate */,
+				570ADCA5259D09A4006970DF /* Scenes */,
 				57B18574259A913400EE615A /* Extensions */,
 				57B18568259A8F7200EE615A /* Resources */,
 				57B1855D259A8B1500EE615A /* Data */,
 				57B18540259A87D200EE615A /* Classes */,
-				57B1850A259A841600EE615A /* AppDelegate.swift */,
-				57B1850C259A841600EE615A /* SceneDelegate.swift */,
-				57B1850E259A841600EE615A /* ViewController.swift */,
-				57B18510259A841600EE615A /* Main.storyboard */,
-				57B18516259A841700EE615A /* Assets.xcassets */,
-				57B18518259A841700EE615A /* LaunchScreen.storyboard */,
 				57B1851B259A841700EE615A /* Info.plist */,
 				57B18513259A841600EE615A /* CurrencyConverter.xcdatamodeld */,
 			);
@@ -344,6 +383,7 @@
 		57B18568259A8F7200EE615A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				570ADCA6259D09BA006970DF /* Assets */,
 				57B18569259A8F8000EE615A /* Files */,
 			);
 			path = Resources;
@@ -479,11 +519,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				570ADCB3259D0B3F006970DF /* Main.storyboard in Resources */,
+				570ADCB4259D0B3F006970DF /* LaunchScreen.storyboard in Resources */,
 				570ADC60259BDA06006970DF /* list.json in Resources */,
-				57B1851A259A841700EE615A /* LaunchScreen.storyboard in Resources */,
 				57B1856B259A8FAA00EE615A /* APISettings.plist in Resources */,
 				57B18517259A841700EE615A /* Assets.xcassets in Resources */,
-				57B18512259A841600EE615A /* Main.storyboard in Resources */,
 				570ADC6E259BEC0C006970DF /* live.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -737,7 +777,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = victorsoto.CurrencyConverter;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorsoto.currencyconverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -756,7 +797,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = victorsoto.CurrencyConverter;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.victorsoto.currencyconverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
