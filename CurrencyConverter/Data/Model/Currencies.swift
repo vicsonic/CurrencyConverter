@@ -7,14 +7,40 @@
 
 import Foundation
 
-struct Country: Codable {
-    let name: String
-    let flag: String?
+struct LocaleCurrency: Hashable {
+    let code: String
+    let symbol: String
+
+    init?(locale: Locale) {
+        guard let code = locale.currencyCode,
+              let symbol = locale.currencySymbol else {
+            return nil
+        }
+        self.code = code
+        self.symbol = symbol
+    }
+
+    static func == (lhs: LocaleCurrency, rhs: LocaleCurrency) -> Bool {
+        return lhs.code == rhs.code && lhs.symbol == rhs.symbol
+    }
+
+    static var availableCurrencies: [String: [LocaleCurrency]] = {
+        let currencies = Set(Locale.availableIdentifiers.compactMap{ LocaleCurrency(locale: Locale(identifier: $0)) })
+        return Dictionary(grouping: currencies, by: { $0.code })
+    }()
+
+    static func currencies(for code: String) -> [LocaleCurrency] {
+        guard let currencies = availableCurrencies[code] else {
+            return []
+        }
+        return currencies
+    }
 }
 
 struct Currency: Codable {
     let code: String
-    let country: Country
+    let name: String
+    let symbols: [String]
 }
 
 struct Currencies: Codable {
@@ -36,7 +62,7 @@ struct Currencies: Codable {
         terms = try container.decode(String.self, forKey: .terms)
         privacy = try container.decode(String.self, forKey: .privacy)
         let dictionary = try container.decode([String: String].self, forKey: .currencies)
-        currencies = dictionary.map{ Currency(code: $0, country: Country(name: $1, flag: nil)) }
+        currencies = dictionary.map{ Currency(code: $0, name: $1, symbols: LocaleCurrency.currencies(for: $0).map{ $0.symbol }) }
     }
 
     func encode(to encoder: Encoder) throws {
@@ -44,6 +70,6 @@ struct Currencies: Codable {
         try container.encode(success, forKey: .success)
         try container.encode(terms, forKey: .terms)
         try container.encode(privacy, forKey: .privacy)
-        try container.encode(Dictionary(uniqueKeysWithValues: currencies.map{ ($0.code, $0.country.name) }), forKey: .currencies)
+        try container.encode(Dictionary(uniqueKeysWithValues: currencies.map{ ($0.code, $0.name) }), forKey: .currencies)
     }
 }
