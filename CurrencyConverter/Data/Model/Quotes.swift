@@ -20,6 +20,15 @@ struct Quotes: Codable {
     let source: String
     let quotes: [Quote]
 
+    private enum CodingKeys: String, CodingKey {
+        case success
+        case terms
+        case privacy
+        case timestamp
+        case source
+        case quotes
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         success = try container.decode(Bool.self, forKey: .success)
@@ -30,5 +39,15 @@ struct Quotes: Codable {
         source = try container.decode(String.self, forKey: .source)
         let dictionary = try container.decode([String: Double].self, forKey: .quotes)
         quotes = dictionary.map{ Quote(code: $0, value: $1) }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(success, forKey: .success)
+        try container.encode(terms, forKey: .terms)
+        try container.encode(privacy, forKey: .privacy)
+        try container.encode(timestamp.timeIntervalSince1970, forKey: .timestamp)
+        try container.encode(source, forKey: .source)
+        try container.encode(Dictionary(uniqueKeysWithValues: quotes.map{ ($0.code, $0.value) }), forKey: .quotes)
     }
 }

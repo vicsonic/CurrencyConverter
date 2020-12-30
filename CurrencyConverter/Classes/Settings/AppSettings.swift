@@ -11,6 +11,9 @@ class AppSettings {
 
     private(set) var apiSettings: APISettings?
     private var apiSettingsStore: APISettingsStore
+    private(set) lazy var diskStorage: DiskStorage = {
+        DiskStorage(path: URL(fileURLWithPath: NSTemporaryDirectory()))
+    }()
 
     static let shared = AppSettings()
 

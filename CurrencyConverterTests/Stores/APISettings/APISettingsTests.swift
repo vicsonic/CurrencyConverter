@@ -19,6 +19,7 @@ class APISettingsTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        store.cancelGetAPISettings()
         settings = nil
     }
 

@@ -8,14 +8,28 @@
 import Foundation
 import Combine
 
-class QuotesStore: Store {
+class QuotesStore: Store, StorageOwner {
 
     // MARK: - Store
 
     typealias T = Quotes
     private(set) var builder: PublisherBuilder
 
-    // MARK: - Settings
+    // MARK: - Storage Owner
+
+    private enum Constants {
+        static let storageQuotesKey = "Quotes"
+    }
+
+    private(set) var storage: Storage
+    private lazy var encoder: JSONEncoder = {
+        JSONEncoder()
+    }()
+    private lazy var decoder: JSONDecoder = {
+       JSONDecoder()
+    }()
+
+    // MARK: - Quotes
 
     private var quotesPublisher: AnyPublisher<Quotes, Error>
     private var quotesCancellable: AnyCancellable?
@@ -53,6 +67,7 @@ class QuotesStore: Store {
 
     init() {
         builder = PublisherBuilder()
+        storage = AppSettings.shared.diskStorage
         quotesPublisher = builder.publisher(for: CurrencyLayerRouter.live, decoder: JSONDecoder())
     }
 
@@ -65,6 +80,6 @@ class QuotesStore: Store {
 
 extension QuotesStore {
     func setForTests(router: Router) {
-        quotesPublisher = builder.publisher(for: router, decoder: JSONDecoder())
+        quotesPublisher = builder.publisher(for: router, decoder: decoder)
     }
 }

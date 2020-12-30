@@ -21,4 +21,10 @@ struct CurrencyConverterError {
         case invalidFile
         case decoding(error: Error)
     }
+
+    enum Storage: Error {
+        case read(error: Error)
+        case write(error: Error)
+        case fileNotFound
+    }
 }

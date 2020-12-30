@@ -8,17 +8,39 @@
 import Foundation
 import Combine
 
-class CurrenciesStore: Store {
+class CurrenciesStore: Store, StorageOwner {
 
     // MARK: - Store
 
     typealias T = Currencies
     private(set) var builder: PublisherBuilder
 
-    // MARK: - Settings
+    // MARK: - Storage Owner
+
+    private enum Constants {
+        static let storageCurrenciesKey = "Currencies"
+    }
+
+    private(set) var storage: Storage
+    private lazy var encoder: JSONEncoder = {
+        JSONEncoder()
+    }()
+    private lazy var decoder: JSONDecoder = {
+       JSONDecoder()
+    }()
+
+    // MARK: - Currencies
 
     private var currenciesPublisher: AnyPublisher<Currencies, Error>
     private var currenciesCancellable: AnyCancellable?
+
+    func loadCurrencies(success: @escaping (Currencies) -> Void, failure: @escaping (Error) -> Void) {
+        fetch(key: Constants.storageCurrenciesKey, decoder: decoder, success: success, failure: failure)
+    }
+
+    private func saveCurrencies(_ currencies: Currencies) {
+        store(value: currencies, key: Constants.storageCurrenciesKey, encoder: encoder, success: nil, failure: nil)
+    }
 
     func getCurrencies(success: @escaping (Currencies) -> Void, failure: @escaping (Error) -> Void) {
         guard currenciesCancellable == nil else {
@@ -53,6 +75,7 @@ class CurrenciesStore: Store {
 
     init() {
         builder = PublisherBuilder()
+        storage = AppSettings.shared.diskStorage
         currenciesPublisher = builder.publisher(for: CurrencyLayerRouter.list, decoder: JSONDecoder())
     }
 
@@ -65,6 +88,6 @@ class CurrenciesStore: Store {
 
 extension CurrenciesStore {
     func setForTests(router: Router) {
-        currenciesPublisher = builder.publisher(for: router, decoder: JSONDecoder())
+        currenciesPublisher = builder.publisher(for: router, decoder: decoder)
     }
 }
