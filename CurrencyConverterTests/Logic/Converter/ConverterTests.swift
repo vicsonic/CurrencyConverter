@@ -19,7 +19,11 @@ class ConverterTests: XCTestCase {
     let jpy = "JPY"
 
     let mxnToUSDResult: Double = 0.05
-    let mxnToJPYResult: Double = 5.198
+    let mxnToJPYResult: Double = 5.2
+
+    let fiveTimesFactor: Double = 5
+    let mxnToUSDFiveTimesResult: Double = 0.25
+    let mxnToJPYFiveTimesResult: Double = 25.99
 
     override func setUpWithError() throws {
         let currenciesExpectation = self.expectation(description: "Currencies")
@@ -58,16 +62,35 @@ class ConverterTests: XCTestCase {
         }
         let currenciesCatalog = Dictionary(uniqueKeysWithValues: currencies.currencies.map{ ($0.code, $0) })
         let converter = Converter(currencies: currencies, quotes: quotes)
-
-        let mxnCurrency = (currenciesCatalog[mxn])!
-        let jpyCurrency = (currenciesCatalog[jpy])!
-        let usdCurrency = (currenciesCatalog[usd])!
-
-        let mxnConversion = converter.convert(source: mxnCurrency, value: 1)
-        let usdValue = (mxnConversion?.results[usdCurrency])!.roundToDecimal(2)
-        let jpyValue = (mxnConversion?.results[jpyCurrency])!.roundToDecimal(2)
+        guard let mxnCurrency = currenciesCatalog[mxn],
+              let jpyCurrency = currenciesCatalog[jpy],
+              let usdCurrency = currenciesCatalog[usd],
+              let mxnConversion = converter.convert(source: mxnCurrency, value: 1) else {
+            return
+        }
+        let usdValue = mxnConversion.results[usdCurrency]?.roundToDecimal(2)
+        let jpyValue = mxnConversion.results[jpyCurrency]?.roundToDecimal(2)
 
         XCTAssertEqual(usdValue, mxnToUSDResult)
         XCTAssertEqual(jpyValue, mxnToJPYResult)
+    }
+
+    func testMultiplyConversion() {
+        guard let currencies = currencies, let quotes = quotes else {
+            return
+        }
+        let currenciesCatalog = Dictionary(uniqueKeysWithValues: currencies.currencies.map{ ($0.code, $0) })
+        let converter = Converter(currencies: currencies, quotes: quotes)
+        guard let mxnCurrency = currenciesCatalog[mxn],
+              let jpyCurrency = currenciesCatalog[jpy],
+              let usdCurrency = currenciesCatalog[usd],
+              let mxnConversion = converter.convert(source: mxnCurrency, value: fiveTimesFactor) else {
+            return
+        }
+        let usdValue = mxnConversion.results[usdCurrency]?.roundToDecimal(2)
+        let jpyValue = mxnConversion.results[jpyCurrency]?.roundToDecimal(2)
+
+        XCTAssertEqual(usdValue, mxnToUSDFiveTimesResult)
+        XCTAssertEqual(jpyValue, mxnToJPYFiveTimesResult)
     }
 }
