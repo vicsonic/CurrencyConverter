@@ -34,11 +34,12 @@ struct Quotes: Codable {
         success = try container.decode(Bool.self, forKey: .success)
         terms = try container.decode(String.self, forKey: .terms)
         privacy = try container.decode(String.self, forKey: .privacy)
-        let time = try container.decode(Int.self, forKey: .timestamp)
-        timestamp = Date(timeIntervalSince1970: TimeInterval(time))
-        source = try container.decode(String.self, forKey: .source)
+        let timestampValue = try container.decode(Int.self, forKey: .timestamp)
+        timestamp = Date(timeIntervalSince1970: TimeInterval(timestampValue))
+        let sourceValue = try container.decode(String.self, forKey: .source)
+        source = sourceValue
         let dictionary = try container.decode([String: Double].self, forKey: .quotes)
-        quotes = dictionary.map{ Quote(code: $0, value: $1) }
+        quotes = dictionary.map{ Quote(code: $0.replacingFirstOccurrence(of: sourceValue, with: ""), value: $1) }
     }
 
     func encode(to encoder: Encoder) throws {
@@ -48,6 +49,6 @@ struct Quotes: Codable {
         try container.encode(privacy, forKey: .privacy)
         try container.encode(timestamp.timeIntervalSince1970, forKey: .timestamp)
         try container.encode(source, forKey: .source)
-        try container.encode(Dictionary(uniqueKeysWithValues: quotes.map{ ($0.code, $0.value) }), forKey: .quotes)
+        try container.encode(Dictionary(uniqueKeysWithValues: quotes.map{ (source.appending($0.code), $0.value) }), forKey: .quotes)
     }
 }

@@ -37,7 +37,7 @@ struct LocaleCurrency: Hashable {
     }
 }
 
-struct Currency: Codable {
+struct Currency: Codable, Hashable {
     let code: String
     let name: String
     let symbols: [String]

@@ -27,4 +27,8 @@ struct CurrencyConverterError {
         case write(error: Error)
         case fileNotFound
     }
+
+    enum Converter: Error {
+        case invalidCurrency
+    }
 }
