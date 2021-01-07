@@ -41,6 +41,18 @@ struct Currency: Codable, Hashable {
     let code: String
     let name: String
     let symbols: [String]
+
+    init() {
+        self.code = ""
+        self.name = ""
+        self.symbols = []
+    }
+
+    init(code: String, name: String, symbols: [String]) {
+        self.code = code
+        self.name = name
+        self.symbols = symbols
+    }
 }
 
 struct Currencies: Codable {
@@ -55,14 +67,21 @@ struct Currencies: Codable {
         case privacy
         case currencies
     }
-    
+
+    init() {
+        self.success = false
+        self.terms = ""
+        self.privacy = ""
+        self.currencies = []
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        success = try container.decode(Bool.self, forKey: .success)
-        terms = try container.decode(String.self, forKey: .terms)
-        privacy = try container.decode(String.self, forKey: .privacy)
+        self.success = try container.decode(Bool.self, forKey: .success)
+        self.terms = try container.decode(String.self, forKey: .terms)
+        self.privacy = try container.decode(String.self, forKey: .privacy)
         let dictionary = try container.decode([String: String].self, forKey: .currencies)
-        currencies = dictionary.map{ Currency(code: $0, name: $1, symbols: LocaleCurrency.currencies(for: $0).map{ $0.symbol }) }
+        self.currencies = dictionary.map{ Currency(code: $0, name: $1, symbols: LocaleCurrency.currencies(for: $0).map{ $0.symbol }) }
     }
 
     func encode(to encoder: Encoder) throws {

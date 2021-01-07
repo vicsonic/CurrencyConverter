@@ -29,17 +29,26 @@ struct Quotes: Codable {
         case quotes
     }
 
+    init() {
+        self.success = false
+        self.terms = ""
+        self.privacy = ""
+        self.timestamp = Date()
+        self.source = ""
+        self.quotes = []
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        success = try container.decode(Bool.self, forKey: .success)
-        terms = try container.decode(String.self, forKey: .terms)
-        privacy = try container.decode(String.self, forKey: .privacy)
-        let timestampValue = try container.decode(Int.self, forKey: .timestamp)
-        timestamp = Date(timeIntervalSince1970: TimeInterval(timestampValue))
-        let sourceValue = try container.decode(String.self, forKey: .source)
-        source = sourceValue
+        self.success = try container.decode(Bool.self, forKey: .success)
+        self.terms = try container.decode(String.self, forKey: .terms)
+        self.privacy = try container.decode(String.self, forKey: .privacy)
+        let timestamp = try container.decode(Int.self, forKey: .timestamp)
+        self.timestamp = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        let source = try container.decode(String.self, forKey: .source)
+        self.source = source
         let dictionary = try container.decode([String: Double].self, forKey: .quotes)
-        quotes = dictionary.map{ Quote(code: $0.replacingFirstOccurrence(of: sourceValue, with: ""), value: $1) }
+        quotes = dictionary.map{ Quote(code: $0.replacingFirstOccurrence(of: source, with: ""), value: $1) }
     }
 
     func encode(to encoder: Encoder) throws {

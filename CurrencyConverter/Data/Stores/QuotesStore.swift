@@ -22,16 +22,14 @@ class QuotesStore: Store, StorageOwner {
     }
 
     private(set) var storage: Storage
-    private lazy var encoder: JSONEncoder = {
-        JSONEncoder()
-    }()
-    private lazy var decoder: JSONDecoder = {
-       JSONDecoder()
-    }()
+    private lazy var encoder = JSONEncoder()
+    private lazy var decoder = JSONDecoder()
 
     // MARK: - Quotes
 
-    private var quotesPublisher: AnyPublisher<Quotes, Error>
+    private lazy var quotesPublisher: AnyPublisher<Quotes, Error> = {
+        buildQuotesPublisher()
+    }()
     private var quotesCancellable: AnyCancellable?
 
     func loadQuotes(success: @escaping (Quotes) -> Void, failure: @escaping (Error) -> Void) {
@@ -46,10 +44,18 @@ class QuotesStore: Store, StorageOwner {
         try? delete(key: Constants.storageQuotesKey)
     }
 
+    func buildQuotesPublisher() -> AnyPublisher<Quotes, Error> {
+        builder.publisher(for: CurrencyLayerRouter.live, decoder: decoder)
+    }
+
+    func buildLoadFuture() -> Future<Quotes, Error> {
+        buildFetchFuture(key: Constants.storageQuotesKey, decoder: decoder)
+    }
+
     func getQuotes(success: @escaping (Quotes) -> Void, failure: @escaping (Error) -> Void) {
         guard quotesCancellable == nil else {
             DispatchQueue.main.async {
-                failure(CurrencyConverterError.Store.existingCancellableForRequest)
+                failure(AppError.Store.existingCancellableForRequest)
             }
             return
         }
@@ -80,7 +86,6 @@ class QuotesStore: Store, StorageOwner {
     init() {
         builder = PublisherBuilder()
         storage = AppSettings.shared.diskStorage
-        quotesPublisher = builder.publisher(for: CurrencyLayerRouter.live, decoder: JSONDecoder())
     }
 
     deinit {

@@ -68,8 +68,8 @@ class ConverterTests: XCTestCase {
               let mxnConversion = converter.convert(source: mxnCurrency, value: 1) else {
             return
         }
-        let usdValue = mxnConversion.results[usdCurrency]?.roundToDecimal(2)
-        let jpyValue = mxnConversion.results[jpyCurrency]?.roundToDecimal(2)
+        let usdValue = mxnConversion.results[usdCurrency]?.value.roundToDecimal(2)
+        let jpyValue = mxnConversion.results[jpyCurrency]?.value.roundToDecimal(2)
 
         XCTAssertEqual(usdValue, mxnToUSDResult)
         XCTAssertEqual(jpyValue, mxnToJPYResult)
@@ -87,8 +87,8 @@ class ConverterTests: XCTestCase {
               let mxnConversion = converter.convert(source: mxnCurrency, value: fiveTimesFactor) else {
             return
         }
-        let usdValue = mxnConversion.results[usdCurrency]?.roundToDecimal(2)
-        let jpyValue = mxnConversion.results[jpyCurrency]?.roundToDecimal(2)
+        let usdValue = mxnConversion.results[usdCurrency]?.value.roundToDecimal(2)
+        let jpyValue = mxnConversion.results[jpyCurrency]?.value.roundToDecimal(2)
 
         XCTAssertEqual(usdValue, mxnToUSDFiveTimesResult)
         XCTAssertEqual(jpyValue, mxnToJPYFiveTimesResult)

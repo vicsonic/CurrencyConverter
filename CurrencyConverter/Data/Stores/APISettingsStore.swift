@@ -23,7 +23,7 @@ class APISettingsStore: Store {
     func getAPISettings(success: @escaping (APISettings) -> Void, failure: @escaping (Error) -> Void) {
         guard apiSettingsCancellable == nil else {
             DispatchQueue.main.async {
-                failure(CurrencyConverterError.Store.existingCancellableForRequest)
+                failure(AppError.Store.existingCancellableForRequest)
             }
             return
         }

@@ -22,16 +22,15 @@ class CurrenciesStore: Store, StorageOwner {
     }
 
     private(set) var storage: Storage
-    private lazy var encoder: JSONEncoder = {
-        JSONEncoder()
-    }()
-    private lazy var decoder: JSONDecoder = {
-       JSONDecoder()
-    }()
+    private lazy var encoder = JSONEncoder()
+    private lazy var decoder = JSONDecoder()
 
     // MARK: - Currencies
 
-    private var currenciesPublisher: AnyPublisher<Currencies, Error>
+    private lazy var currenciesPublisher: AnyPublisher<Currencies, Error> = {
+        buildCurrenciesPublisher()
+    }()
+
     private var currenciesCancellable: AnyCancellable?
 
     func loadCurrencies(success: @escaping (Currencies) -> Void, failure: @escaping (Error) -> Void) {
@@ -46,10 +45,18 @@ class CurrenciesStore: Store, StorageOwner {
         try? delete(key: Constants.storageCurrenciesKey)
     }
 
+    func buildCurrenciesPublisher() -> AnyPublisher<Currencies, Error> {
+        builder.publisher(for: CurrencyLayerRouter.list, decoder: decoder)
+    }
+
+    func buildLoadFuture() -> Future<Currencies, Error> {
+        buildFetchFuture(key: Constants.storageCurrenciesKey, decoder: decoder)
+    }
+
     func getCurrencies(success: @escaping (Currencies) -> Void, failure: @escaping (Error) -> Void) {
         guard currenciesCancellable == nil else {
             DispatchQueue.main.async {
-                failure(CurrencyConverterError.Store.existingCancellableForRequest)
+                failure(AppError.Store.existingCancellableForRequest)
             }
             return
         }
@@ -80,7 +87,6 @@ class CurrenciesStore: Store, StorageOwner {
     init() {
         builder = PublisherBuilder()
         storage = AppSettings.shared.diskStorage
-        currenciesPublisher = builder.publisher(for: CurrencyLayerRouter.list, decoder: JSONDecoder())
     }
 
     deinit {

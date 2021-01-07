@@ -15,6 +15,8 @@ protocol StorageOwner {
     func store<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E) throws
     func store<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E, success: (() -> Void)?, failure: ((Error) -> Void)?)
     func delete(key: String) throws
+    func buildFetchFuture<T: Decodable, D: TopLevelDecoder>(key: String, decoder: D) -> Future<T, Error>
+    func buildStoreFuture<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E) -> Future<Void, Error>
 }
 
 extension StorageOwner {
@@ -68,5 +70,17 @@ extension StorageOwner {
 
     func delete(key: String) throws {
         try storage.delete(key: key)
+    }
+
+    func buildFetchFuture<T: Decodable, D: TopLevelDecoder>(key: String, decoder: D) -> Future<T, Error> {
+        Future<T, Error> { promise in
+            fetch(key: key, decoder: decoder, success: { promise(.success($0)) }, failure: { promise(.failure($0))})
+        }
+    }
+
+    func buildStoreFuture<T: Encodable, E: TopLevelEncoder>(value: T, key: String, encoder: E) -> Future<Void, Error> {
+        Future<Void, Error> { promise in
+            store(value: value, key: key, encoder: encoder, success: { promise(.success(())) }, failure: { promise(.failure($0)) })
+        }
     }
 }

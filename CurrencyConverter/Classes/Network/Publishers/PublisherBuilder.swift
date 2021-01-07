@@ -11,7 +11,7 @@ import Combine
 class PublisherBuilder {
     func publisher<T: Codable, D: TopLevelDecoder>(for router: Router, decoder: D) -> AnyPublisher<T, Error> {
         guard var url = router.url else {
-            return Fail(error: CurrencyConverterError.Router.invalidURL).eraseToAnyPublisher()
+            return Fail(error: AppError.Router.invalidURL).eraseToAnyPublisher()
         }
         if case let AuthenticationType.url(name) = router.authenticationType,
            let authenticationKey = router.authenticationKey,
@@ -26,8 +26,8 @@ class PublisherBuilder {
         return URLSession.shared.dataTaskPublisher(for: request)
             .map{ $0.data as! D.Input }
             .decode(type: T.self, decoder: decoder)
-            .mapError({ error -> CurrencyConverterError.Publisher in
-                return CurrencyConverterError.Publisher.request(error: error)
+            .mapError({ error -> AppError.Publisher in
+                return AppError.Publisher.request(error: error)
             })
             .retry(3)
             .eraseToAnyPublisher()

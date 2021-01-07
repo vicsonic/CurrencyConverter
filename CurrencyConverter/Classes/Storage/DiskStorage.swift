@@ -37,7 +37,7 @@ extension DiskStorage: ReadStorage {
     func fetchData(key: String) throws -> Data {
         let url = path.appendingPathComponent(key)
         guard let data = manager.contents(atPath: url.path) else {
-            throw CurrencyConverterError.Storage.fileNotFound
+            throw AppError.Storage.fileNotFound
         }
         return data
     }
@@ -61,7 +61,7 @@ extension DiskStorage: WriteStorage {
             try self.createDirectoryIfNeeded(url: url)
             try value.write(to: url, options: .atomic)
         } catch {
-            throw CurrencyConverterError.Storage.write(error: error)
+            throw AppError.Storage.write(error: error)
         }
     }
 
