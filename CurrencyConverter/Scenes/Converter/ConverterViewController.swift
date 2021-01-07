@@ -33,8 +33,8 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
     }
 
     deinit {
-        onSelectCurrencyBindable.bind(nil)
-        onConversionUpdatedBindable.bind(nil)
+        onSelectCurrencyBindable.invalidate()
+        onConversionUpdatedBindable.invalidate()
     }
 }
 

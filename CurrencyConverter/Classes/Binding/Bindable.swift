@@ -21,6 +21,10 @@ final class Bindable<Value> {
         self.observer?(value)
     }
 
+    func invalidate() {
+        self.observer = nil
+    }
+
     fileprivate(set) var value: Value {
         didSet {
             observer?(value)
@@ -29,6 +33,10 @@ final class Bindable<Value> {
 
     init(_ value: Value) {
         self.value = value
+    }
+
+    deinit {
+        invalidate()
     }
 }
 

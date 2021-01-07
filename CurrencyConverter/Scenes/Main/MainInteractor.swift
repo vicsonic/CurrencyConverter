@@ -47,6 +47,10 @@ class MainInteractor: BindableUpdater {
         quotes = nil
         conversion = nil
         results = nil
+        onDataUpdatedBindable.invalidate()
+        onDataUpdatedBindable.invalidate()
+        onErrorBindable.invalidate()
+        onDataUpdatedBindable.invalidate()
     }
 
     // MARK: - Data Functions
@@ -73,6 +77,7 @@ class MainInteractor: BindableUpdater {
                     debugPrint(error.localizedDescription)
                 }
                 self.loadingData(false)
+                self.getCancellable = nil
             }, receiveValue: { [weak self] (currencies, quotes) in
                 guard let self = self else {
                     return
@@ -100,6 +105,7 @@ class MainInteractor: BindableUpdater {
                 }
                 self.loadingData(false)
                 self.getData()
+                self.loadCancellable = nil
             }, receiveValue: { [weak self] (currencies, quotes) in
                 guard let self = self else {
                     return

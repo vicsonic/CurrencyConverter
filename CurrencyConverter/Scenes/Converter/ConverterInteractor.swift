@@ -57,6 +57,12 @@ class ConverterInteractor: BindableUpdater {
         setupInteractor()
     }
 
+    deinit {
+        lastUpdateBindable.invalidate()
+        selectedCurrencyBindable.invalidate()
+        conversionBindable.invalidate()
+    }
+
     // MARK: - Setup
 
     private func setupInteractor() {

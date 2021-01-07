@@ -23,6 +23,10 @@ class CurrenciesViewController: UITableViewController, BindableUpdater {
         setupViewController()
     }
 
+    deinit {
+        onCurrencySelectedBindable.invalidate()
+    }
+
     // MARK: - Actions
 
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {

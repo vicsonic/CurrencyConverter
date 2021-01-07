@@ -21,6 +21,13 @@ class CurrenciesInteractor: BindableUpdater {
     private(set) var onDataUpdatedBindable = Bindable(())
     private(set) var onCurrencySelectedBindable = Bindable(Currency())
 
+    // MARK: - Lifecycle
+
+    deinit {
+        onDataUpdatedBindable.invalidate()
+        onCurrencySelectedBindable.invalidate()
+    }
+
     // MARK: - Setup
 
     func setupInteractor(currencies: Currencies, selected: Currency) {
