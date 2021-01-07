@@ -11,8 +11,11 @@ import Combine
 class ConverterViewController: UITableViewController, UITextFieldDelegate, BindableUpdater {
 
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var currencyLabel: UILabel!
-
+    @IBOutlet weak var currencyCell: CurrencyCell!
+    private weak var footer: UITableViewHeaderFooterView? {
+        tableView.footerView(forSection: 0)
+    }
+    
     private enum Constants {
         static let currencyIndex = 1
     }
@@ -26,46 +29,47 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViewController()
+        setupViewController()
     }
 
     deinit {
         onSelectCurrencyBindable.bind(nil)
         onConversionUpdatedBindable.bind(nil)
     }
+}
 
-    // MARK: - Setup
+// MARK: - Setup
 
-    func setViewController(currencies: Currencies, quotes: Quotes) {
-        viewModel.setUsing(currencies: currencies, quotes: quotes)
-        setBindings()
-        setInitialValues()
+extension ConverterViewController {
+    func setupViewController(currencies: Currencies, quotes: Quotes) {
+        viewModel.setupUsing(currencies: currencies, quotes: quotes)
+        setupStreams()
+        setupInitialValues()
     }
 
-    private func setViewController() {
-        setTable()
-        setTextField()
+    private func setupViewController() {
+        setupTableView()
+        setupTextField()
+        setupStyle()
     }
 
-    private func setTable() {
+    private func setupTableView() {
         tableView.sectionHeaderHeight = 0
         tableView.estimatedSectionHeaderHeight = 0
     }
 
-    private func setTextField() {
+    private func setupTextField() {
         textField.keyboardType = .numbersAndPunctuation
         textField.placeholder = "Type the quantity"
         textField.returnKeyType = .done
     }
 
-    private func setInitialValues() {
+    private func setupInitialValues() {
         textField.text = "1"
         textField.sendActions(for: .editingChanged)
     }
 
-    // MARK: - Bindings
-
-    private func setBindings() {
+    private func setupStreams() {
         viewModel.bindOnLastUpdate { [weak self]  lastUpdate in
             self?.updateLastUpdate(lastUpdate)
         }
@@ -86,8 +90,16 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
         }.store(in: &cancelBag)
     }
 
-    // MARK: - UITextFieldDelegate
+    private func setupStyle() {
+        textField.setStyle(TextFieldStyle())
+        currencyCell.setStyle(TableCellStyle())
+        footer?.setStyle(FooterStyle())
+    }
+}
 
+// MARK: - UITextFieldDelegate
+
+extension ConverterViewController {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -96,12 +108,13 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return textField.shouldChangeCharactersIn(range: range, originalString: textField.text, replacementString: string, validation: .decimalNumber)
     }
+}
 
-    // MARK: - UI
+// MARK: - UI
 
+extension ConverterViewController {
     private func updateLastUpdate(_ value: String) {
         tableView.beginUpdates()
-        let footer = tableView.footerView(forSection: 0)
         footer?.textLabel?.text = "Last Update: \(value)"
         footer?.sizeToFit()
         tableView.endUpdates()
@@ -109,13 +122,14 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
 
     private func updateSelectedCurrency(_ currency: Currency) {
         tableView.beginUpdates()
-        let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
-        cell?.textLabel?.text = currency.code
+        currencyCell.update(using: currency)
         tableView.endUpdates()
     }
+}
 
-    // MARK: - Actions
+// MARK: - Actions
 
+extension ConverterViewController {
     func onSelectCurrency(_ observer: @escaping (Currencies, Currency) -> Void) {
         onSelectCurrencyBindable.bind(observer)
     }
@@ -127,9 +141,11 @@ class ConverterViewController: UITableViewController, UITextFieldDelegate, Binda
     func currencySelected(_ currency: Currency) {
         viewModel.updateSelectedCurrency(currency)
     }
+}
 
-    // MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 
+extension ConverterViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == Constants.currencyIndex else {
             return

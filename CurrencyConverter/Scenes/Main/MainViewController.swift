@@ -17,9 +17,9 @@ class MainViewController: UIViewController {
     }
 
     private lazy var viewModel = MainViewModel()
-    private lazy var converterViewController: ConverterViewController? = {
+    private weak var converterViewController: ConverterViewController? {
         children.first as? ConverterViewController
-    }()
+    }
 
     // MARK: - Lifecycle
 
@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
         setupStyle()
         setupStreams()
         setupEvents()
-    
+
         viewModel.loadData()
     }
 }
@@ -67,7 +67,7 @@ extension MainViewController {
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        let size = (UIScreen.main.bounds.width / 3) - 7
+        let size = (UIScreen.main.bounds.width / 2) - 10
         layout.itemSize = CGSize(width: size, height: size)
         collectionView.collectionViewLayout = layout
     }
@@ -89,7 +89,7 @@ extension MainViewController {
             guard let self = self else {
                 return
             }
-            self.converterViewController?.setViewController(currencies: currencies, quotes: quotes)
+            self.converterViewController?.setupViewController(currencies: currencies, quotes: quotes)
             self.showInterface(true)
         }
 
@@ -130,6 +130,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
               let conversion = viewModel.conversionAt(indexPath: indexPath) else {
             return UICollectionViewCell()
         }
+        cell.setStyle(ConversionCellStyle())
         cell.update(using: conversion)
         return cell
     }

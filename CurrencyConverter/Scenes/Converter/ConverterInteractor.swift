@@ -44,6 +44,8 @@ class ConverterInteractor: BindableUpdater {
         return formatter
     }()
 
+    // MARK: - Lifecycle
+
     init(currencies: Currencies, quotes: Quotes) {
         self.currencies = currencies
         self.quotes = quotes
@@ -55,12 +57,16 @@ class ConverterInteractor: BindableUpdater {
         setupInteractor()
     }
 
+    // MARK: - Setup
+
     private func setupInteractor() {
         handleBindableUpdate(lastUpdateBindable, value: dateFormatter.string(from: quotes.timestamp))
         if let selectedCurrency = converter.currenciesCatalog[Constants.defaultCurrencyCode] {
             updateConversion(selectedCurrency: selectedCurrency)
         }
     }
+
+    // MARK: - Update
 
     func updateConversion(amount: String) {
         self.amount = Double(amount) ?? 0

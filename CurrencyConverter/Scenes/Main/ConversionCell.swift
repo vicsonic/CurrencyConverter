@@ -25,8 +25,12 @@ class ConversionCell: UICollectionViewCell, Renderizer {
     // MARK: - Renderizer
 
     func update(using rendereable: ConversionResult) {
-//        symbolLabel.text = rendereable.currency.symbols.first ?? rendereable.currency.code
-        valueLabel.text = rendereable.amount()
+        let style = ConversionCellStyle()
+        let symbol = rendereable.currency.symbols.first ?? rendereable.currency.code
+        let amountAttributedString = NSMutableAttributedString(string: rendereable.amount(), attributes: style.amountStyle.toNSAttributedStringAttributes())
+        let symbolAttributedString = NSAttributedString(string: symbol, attributes: style.symbolStyle.toNSAttributedStringAttributes())
+        amountAttributedString.append(symbolAttributedString)
+        valueLabel.attributedText = amountAttributedString
         nameLabel.text = rendereable.currency.name
     }
 }

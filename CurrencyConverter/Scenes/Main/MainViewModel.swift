@@ -11,6 +11,8 @@ class MainViewModel {
 
     private lazy var interactor = MainInteractor()
 
+    // MARK: - Data Functions
+
     func loadData() {
         interactor.loadData()
     }
@@ -18,6 +20,8 @@ class MainViewModel {
     func getData() {
         interactor.getData()
     }
+
+    // MARK: - Bindings
 
     func bindOnLoadingData(_ observer: @escaping (Bool) -> Void) {
         interactor.onLoadingDataBindable.bind(observer)
@@ -35,9 +39,13 @@ class MainViewModel {
         interactor.onDataUpdatedBindable.bind(observer)
     }
 
+    // MARK: - Update
+
     func updateData(using conversion: Conversion) {
         interactor.updateData(using: conversion)
     }
+
+    // MARK: - Data Source
 
     func numberOfConversions() -> Int {
         return interactor.results?.count ?? 0

@@ -38,7 +38,7 @@ class CurrenciesViewController: UITableViewController, BindableUpdater {
 
 extension CurrenciesViewController {
     func setupViewController(currencies: Currencies, selected: Currency) {
-        viewModel.setUsing(currencies: currencies, selected: selected)
+        viewModel.setupUsing(currencies: currencies, selected: selected)
         setupStreams()
     }
 
@@ -77,6 +77,7 @@ extension CurrenciesViewController {
             return UITableViewCell()
         }
         let currency = viewModel.currency(at: indexPath)
+        cell.setStyle(TableCellStyle())
         cell.update(using: currency)
         cell.updateAccessoryType(selected: viewModel.isSelected(currency: currency))
         return cell

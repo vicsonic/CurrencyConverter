@@ -11,9 +11,13 @@ class CurrenciesViewModel {
 
     private lazy var interactor = CurrenciesInteractor()
 
-    func setUsing(currencies: Currencies, selected: Currency) {
+    // MARK: - Setup
+
+    func setupUsing(currencies: Currencies, selected: Currency) {
         interactor.setupInteractor(currencies: currencies, selected: selected)
     }
+
+    // MARK: - Bindings
 
     func bindOnDataUpdated(_ observer: @escaping () -> Void) {
         interactor.onDataUpdatedBindable.bind(observer)
@@ -22,6 +26,18 @@ class CurrenciesViewModel {
     func bindOnCurrencySelected(_ observer: @escaping (Currency) -> Void) {
         interactor.onCurrencySelectedBindable.bind(observer)
     }
+
+    // MARK: - Update
+
+    func updateSelectedCurrency(_ currency: Currency) {
+        interactor.updateSelectedCurrency(currency)
+    }
+
+    func isSelected(currency: Currency) -> Bool {
+        currency == selectedCurrency()
+    }
+
+    // MARK: - Data Source
 
     func selectedCurrency() -> Currency {
         interactor.selectedCurrency
@@ -37,13 +53,5 @@ class CurrenciesViewModel {
 
     func currency(at indexPath: IndexPath) -> Currency {
         interactor.currencies[indexPath.row]
-    }
-
-    func updateSelectedCurrency(_ currency: Currency) {
-        interactor.updateSelectedCurrency(currency)
-    }
-
-    func isSelected(currency: Currency) -> Bool {
-        currency == selectedCurrency()
     }
 }

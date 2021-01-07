@@ -45,9 +45,11 @@ class MainInteractor: BindableUpdater {
     deinit {
         currencies = nil
         quotes = nil
+        conversion = nil
+        results = nil
     }
 
-    // MARK: - Public
+    // MARK: - Data Functions
 
     func loadData() {
         AppSettings.load { [weak self] in
@@ -80,8 +82,6 @@ class MainInteractor: BindableUpdater {
                 self.dataLoaded(currencies: currencies, quotes: quotes)
             })
     }
-
-    // MARK: - Private
 
     private func loadStoredData() {
         loadingData(true)
@@ -131,6 +131,8 @@ class MainInteractor: BindableUpdater {
     private func dataLoaded(currencies: Currencies, quotes: Quotes) {
         handleBindableUpdate(onDataLoadedBindable, value: (currencies, quotes))
     }
+
+    // MARK: - Update
 
     func updateData(using conversion: Conversion) {
         self.conversion = conversion
