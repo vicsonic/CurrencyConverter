@@ -10,6 +10,10 @@ import Combine
 
 class MainInteractor: BindableUpdater {
 
+    private enum Constants {
+        static let updateThrottlingValue: Int = 30
+    }
+
     private lazy var currenciesStore = CurrenciesStore()
     private lazy var quotesStore = QuotesStore()
 
@@ -25,6 +29,7 @@ class MainInteractor: BindableUpdater {
         }
     }
     private(set) var results: [ConversionResult]?
+    private var lastUpdate: Date?
 
     // MARK: - Bindables
 
@@ -47,6 +52,7 @@ class MainInteractor: BindableUpdater {
         quotes = nil
         conversion = nil
         results = nil
+        lastUpdate = nil
         onDataUpdatedBindable.invalidate()
         onDataUpdatedBindable.invalidate()
         onErrorBindable.invalidate()
@@ -55,6 +61,21 @@ class MainInteractor: BindableUpdater {
 
     // MARK: - Data Functions
 
+    private func throttleGetData() {
+        guard let lastUpdate = lastUpdate else {
+            downloadNewData()
+            return
+        }
+        let minutes = lastUpdate.minutesBetween(date: Date())
+        if minutes >= Constants.updateThrottlingValue {
+            downloadNewData()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                self?.loadingData(false)
+            }
+        }
+    }
+
     func loadData() {
         AppSettings.load { [weak self] in
             self?.loadStoredData()
@@ -62,30 +83,7 @@ class MainInteractor: BindableUpdater {
     }
 
     func getData() {
-        loadingData(true)
-        getCancellable = Publishers.Zip(currenciesStore.buildCurrenciesPublisher(), quotesStore.buildQuotesPublisher())
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else {
-                    return
-                }
-                switch completion {
-                case .finished:
-                    debugPrint("Interactor: \(#function) completed")
-                case .failure(let error):
-                    self.handleError(error)
-                    debugPrint(error.localizedDescription)
-                }
-                self.loadingData(false)
-                self.getCancellable = nil
-            }, receiveValue: { [weak self] (currencies, quotes) in
-                guard let self = self else {
-                    return
-                }
-                self.currencies = currencies
-                self.quotes = quotes
-                self.dataLoaded(currencies: currencies, quotes: quotes)
-            })
+        throttleGetData()
     }
 
     private func loadStoredData() {
@@ -113,6 +111,33 @@ class MainInteractor: BindableUpdater {
                 self.currencies = currencies
                 self.quotes = quotes
                 self.saveData()
+                self.dataLoaded(currencies: currencies, quotes: quotes)
+            })
+    }
+
+    private func downloadNewData() {
+        loadingData(true)
+        getCancellable = Publishers.Zip(currenciesStore.buildCurrenciesPublisher(), quotesStore.buildQuotesPublisher())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    debugPrint("Interactor: \(#function) completed")
+                case .failure(let error):
+                    self.handleError(error)
+                    debugPrint(error.localizedDescription)
+                }
+                self.loadingData(false)
+                self.getCancellable = nil
+            }, receiveValue: { [weak self] (currencies, quotes) in
+                guard let self = self else {
+                    return
+                }
+                self.currencies = currencies
+                self.quotes = quotes
                 self.dataLoaded(currencies: currencies, quotes: quotes)
             })
     }
