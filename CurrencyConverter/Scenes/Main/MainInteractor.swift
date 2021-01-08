@@ -70,7 +70,7 @@ class MainInteractor: BindableUpdater {
         if minutes >= Constants.updateThrottlingValue {
             downloadNewData()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                 self?.loadingData(false)
             }
         }
@@ -161,6 +161,7 @@ class MainInteractor: BindableUpdater {
 
     private func dataLoaded(currencies: Currencies, quotes: Quotes) {
         handleBindableUpdate(onDataLoadedBindable, value: (currencies, quotes))
+        lastUpdate = Date()
     }
 
     // MARK: - Update

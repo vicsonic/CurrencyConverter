@@ -61,6 +61,10 @@ struct ConversionCellStyle: Style {
     let borderColor = UIColor.systemGray5
 }
 
+struct RefreshControlStyle: Style {
+    let tintColor = UIColor.systemPink
+}
+
 // MARK: - Stylable
 
 protocol Stylable {
@@ -146,6 +150,17 @@ extension ConversionCell: Stylable {
         }
         layer.borderColor = style.borderColor.cgColor
         nameLabel.setStyle(style.nameStyle)
+    }
+}
+
+extension UIRefreshControl: Stylable {
+    static func setStyle(_ style: Style) { }
+
+    func setStyle(_ style: Style) {
+        guard let style = style as? RefreshControlStyle else {
+            return
+        }
+        tintColor = style.tintColor
     }
 }
 

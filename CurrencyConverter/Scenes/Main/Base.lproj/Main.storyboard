@@ -17,27 +17,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIk-bs-SOE">
-                                <rect key="frame" x="0.0" y="88" width="414" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="b0f-0p-Lc6"/>
-                                </constraints>
+                            <containerView opaque="NO" contentMode="scaleToFill" id="fIk-bs-SOE">
+                                <rect key="frame" x="0.0" y="61" width="414" height="774"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="meG-Nd-ao6" kind="embed" id="jvW-h6-8A3"/>
                                 </connections>
                             </containerView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5bO-N9-RHs">
-                                <rect key="frame" x="0.0" y="288" width="414" height="574"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Cka-2Q-oi3">
                                     <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ConversionCell" id="dCk-fE-0WA" customClass="ConversionCell" customModule="CurrencyConverter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="73" height="80"/>
+                                        <rect key="frame" x="0.0" y="50" width="73" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RCc-jY-Rqj">
                                             <rect key="frame" x="0.0" y="0.0" width="73" height="80"/>
@@ -81,6 +79,10 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ConverterView" id="0RB-A5-oro" customClass="ConverterView" customModule="CurrencyConverter" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="ryg-tu-hsR"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dx3-HJ-7G1"/>
@@ -90,12 +92,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="5bO-N9-RHs" firstAttribute="top" secondItem="fIk-bs-SOE" secondAttribute="bottom" id="2qZ-X7-6ih"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fIk-bs-SOE" secondAttribute="trailing" id="6Sc-pe-e2r"/>
-                            <constraint firstItem="fIk-bs-SOE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JwR-8m-E1w"/>
-                            <constraint firstItem="fIk-bs-SOE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LNh-KA-YHm"/>
-                            <constraint firstItem="5bO-N9-RHs" firstAttribute="trailing" secondItem="fIk-bs-SOE" secondAttribute="trailing" id="OfZ-wy-G3f"/>
-                            <constraint firstItem="5bO-N9-RHs" firstAttribute="leading" secondItem="fIk-bs-SOE" secondAttribute="leading" id="m8D-kW-qHQ"/>
+                            <constraint firstItem="5bO-N9-RHs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="a2U-9S-FGS"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5bO-N9-RHs" secondAttribute="bottom" id="n85-AO-Ikw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5bO-N9-RHs" secondAttribute="trailing" id="qbM-1h-Q8D"/>
                             <constraint firstItem="5bO-N9-RHs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wSh-3U-ogm"/>
@@ -104,6 +101,7 @@
                     <navigationItem key="navigationItem" id="Ke6-z3-xJa"/>
                     <connections>
                         <outlet property="collectionView" destination="5bO-N9-RHs" id="AaG-iK-auu"/>
+                        <outlet property="converterContainerView" destination="fIk-bs-SOE" id="PU0-Gv-Oee"/>
                         <segue destination="kUX-3P-hia" kind="presentation" identifier="presentCurrencies" id="mif-4N-Ibk"/>
                     </connections>
                 </viewController>
@@ -116,7 +114,7 @@
             <objects>
                 <tableViewController id="meG-Nd-ao6" customClass="ConverterViewController" customModule="CurrencyConverter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="static" style="insetGrouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="20" id="IcM-GY-PQF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <sections>

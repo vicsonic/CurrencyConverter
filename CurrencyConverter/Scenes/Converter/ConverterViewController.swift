@@ -115,7 +115,7 @@ extension ConverterViewController {
 extension ConverterViewController {
     private func updateLastUpdate(_ value: String) {
         tableView.beginUpdates()
-        footer?.textLabel?.text = "Last Update: \(value)"
+        footer?.textLabel?.text = "Data updated on: \(value)"
         footer?.sizeToFit()
         tableView.endUpdates()
     }

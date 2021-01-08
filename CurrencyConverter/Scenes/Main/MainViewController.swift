@@ -10,26 +10,36 @@ import UIKit
 class MainViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var converterContainerView: UIView!
+    
     private enum Constants {
         static let presentCurrenciesSegue = "presentCurrencies"
         static let cellIdentifier = "ConversionCell"
+        static let headerIdentifier =  "ConverterView"
+        static let headerHeight: CGFloat = 200
+        static let collectionViewInset: CGFloat = 8
+        static let collectionViewSpacing:  CGFloat = 2
+        static let collectionViewSizeShinkrer: CGFloat = 10
+        static let collectionViewColumns: CGFloat = 2
     }
 
     private lazy var viewModel = MainViewModel()
     private weak var converterViewController: ConverterViewController? {
         children.first as? ConverterViewController
     }
+    private weak var refreshControl: UIRefreshControl?
+    private weak var header: ConverterView?
 
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
-        setupStyle()
         setupStreams()
         setupEvents()
+        setupStyle()
 
+        showRefreshControl(true)
         viewModel.loadData()
     }
 }
@@ -52,6 +62,15 @@ extension MainViewController {
     }
 }
 
+// MARK: - Actions
+
+extension MainViewController {
+    @objc
+    private func onDidPullToRefresh(sender: Any) {
+        viewModel.getData()
+    }
+}
+
 // MARK: - Setup
 
 extension MainViewController {
@@ -64,21 +83,24 @@ extension MainViewController {
 
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 2
-        layout.minimumInteritemSpacing = 2
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        let size = (UIScreen.main.bounds.width / 2) - 10
+        layout.minimumLineSpacing = Constants.collectionViewSpacing
+        layout.minimumInteritemSpacing = Constants.collectionViewSpacing
+        layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.collectionViewInset, bottom: 0, right: Constants.collectionViewInset)
+        let screen = UIScreen.main.bounds
+        let size = (screen.width / Constants.collectionViewColumns) - Constants.collectionViewSizeShinkrer
         layout.itemSize = CGSize(width: size, height: size)
+        layout.headerReferenceSize = CGSize(width: screen.width, height: Constants.headerHeight)
+        layout.sectionHeadersPinToVisibleBounds = true
         collectionView.collectionViewLayout = layout
-    }
-
-    private func setupStyle() {
-        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onDidPullToRefresh(sender:)), for: .valueChanged)
+        collectionView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
     }
 
     private func setupStreams() {
-        viewModel.bindOnLoadingData { loading in
-            debugPrint("Loading: \(loading)")
+        viewModel.bindOnLoadingData { [weak self] loading in
+            self?.showRefreshControl(loading)
         }
 
         viewModel.bindOnError { error in
@@ -98,6 +120,22 @@ extension MainViewController {
         }
     }
 
+    private func setupHeader(using reusable: ConverterView) {
+        guard header == nil else {
+            return
+        }
+        reusable.addSubview(converterContainerView)
+        converterContainerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            converterContainerView.heightAnchor.constraint(equalToConstant: Constants.headerHeight),
+            converterContainerView.leadingAnchor.constraint(equalTo: reusable.leadingAnchor),
+            converterContainerView.trailingAnchor.constraint(equalTo: reusable.trailingAnchor),
+            converterContainerView.topAnchor.constraint(equalTo: reusable.topAnchor),
+            converterContainerView.bottomAnchor.constraint(equalTo: reusable.bottomAnchor)
+        ])
+        header = reusable
+    }
+
     private func setupEvents() {
         converterViewController?.onSelectCurrency { [weak self] (currencies, selected) in
             self?.performSegue(withIdentifier: Constants.presentCurrenciesSegue, sender: (currencies, selected))
@@ -107,14 +145,28 @@ extension MainViewController {
             self?.viewModel.updateData(using: conversion)
         })
     }
+
+    private func setupStyle() {
+        refreshControl?.setStyle(RefreshControlStyle())
+    }
 }
 
 // MARK: - UI Handling
 
 extension MainViewController {
     private func showInterface(_ show: Bool) {
-        converterViewController?.view.isHidden = !show
-        collectionView.isHidden = !show
+        UIView.animate(withDuration: 0.25) {
+            self.converterViewController?.view.isHidden = !show
+            self.collectionView.isHidden = !show
+        }
+    }
+
+    private func showRefreshControl(_ show: Bool) {
+        if show {
+            refreshControl?.beginRefreshing()
+        } else {
+            refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -123,6 +175,18 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfConversions()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let header = header {
+            return header
+        }
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let reusable = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.headerIdentifier, for: indexPath) as? ConverterView else {
+            return UICollectionReusableView()
+        }
+        setupHeader(using: reusable)
+        return header ?? reusable
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
