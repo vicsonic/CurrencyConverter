@@ -143,6 +143,7 @@
                                                 <constraint firstItem="Tpc-6Q-5eV" firstAttribute="bottom" secondItem="GJL-2w-M7B" secondAttribute="bottomMargin" id="sqB-oQ-Q44"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="huH-FO-G7P" rowHeight="44" style="IBUITableViewCellStyleDefault" id="ZqO-M8-Y19" customClass="CurrencyCell" customModule="CurrencyConverter" customModuleProvider="target">
                                         <rect key="frame" x="20" y="88" width="374" height="44"/>
@@ -160,6 +161,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -212,6 +214,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
