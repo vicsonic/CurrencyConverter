@@ -33,7 +33,6 @@
 		57227311259BCD8A00D6ACBF /* list.json in Resources */ = {isa = PBXBuildFile; fileRef = 57227310259BCD8A00D6ACBF /* list.json */; };
 		57227326259BD07300D6ACBF /* CurrencyLayerTestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57227325259BD07300D6ACBF /* CurrencyLayerTestRouter.swift */; };
 		5762432E25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */; };
-		5762432F25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */; };
 		576882E525A4CB0B00430965 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882E425A4CB0B00430965 /* MainInteractor.swift */; };
 		576882E625A4CB0B00430965 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882E425A4CB0B00430965 /* MainInteractor.swift */; };
 		576882EF25A4D26F00430965 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882EE25A4D26F00430965 /* Bindable.swift */; };
@@ -41,15 +40,12 @@
 		576882FB25A4D34600430965 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882FA25A4D34600430965 /* MainViewModel.swift */; };
 		576882FC25A4D34600430965 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882FA25A4D34600430965 /* MainViewModel.swift */; };
 		5768831325A4D76B00430965 /* CurrenciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831225A4D76B00430965 /* CurrenciesViewController.swift */; };
-		5768831425A4D76B00430965 /* CurrenciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831225A4D76B00430965 /* CurrenciesViewController.swift */; };
 		5768831925A4D7AF00430965 /* CurrenciesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831825A4D7AF00430965 /* CurrenciesViewModel.swift */; };
 		5768831A25A4D7AF00430965 /* CurrenciesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831825A4D7AF00430965 /* CurrenciesViewModel.swift */; };
 		5768831F25A4D7BF00430965 /* CurrenciesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831E25A4D7BF00430965 /* CurrenciesInteractor.swift */; };
 		5768832025A4D7BF00430965 /* CurrenciesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768831E25A4D7BF00430965 /* CurrenciesInteractor.swift */; };
 		5768833825A53FD400430965 /* ConverterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768833725A53FD400430965 /* ConverterViewController.swift */; };
-		5768833925A53FD400430965 /* ConverterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768833725A53FD400430965 /* ConverterViewController.swift */; };
 		5768833E25A554E000430965 /* ConverterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768833D25A554E000430965 /* ConverterViewModel.swift */; };
-		5768833F25A554E000430965 /* ConverterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768833D25A554E000430965 /* ConverterViewModel.swift */; };
 		5768834425A554F300430965 /* ConverterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768834325A554F300430965 /* ConverterInteractor.swift */; };
 		5768834525A554F300430965 /* ConverterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768834325A554F300430965 /* ConverterInteractor.swift */; };
 		5768834B25A5758C00430965 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768834A25A5758C00430965 /* DateExtensions.swift */; };
@@ -63,11 +59,9 @@
 		5792926125A63B57005663FA /* TextFieldPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792926025A63B57005663FA /* TextFieldPublisher.swift */; };
 		5792926225A63B57005663FA /* TextFieldPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792926025A63B57005663FA /* TextFieldPublisher.swift */; };
 		5792926D25A69F40005663FA /* ConversionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792926C25A69F40005663FA /* ConversionCell.swift */; };
-		5792926E25A69F40005663FA /* ConversionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792926C25A69F40005663FA /* ConversionCell.swift */; };
 		5792927425A6A2C4005663FA /* Rendereable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792927325A6A2C4005663FA /* Rendereable.swift */; };
 		5792927525A6A2C4005663FA /* Rendereable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792927325A6A2C4005663FA /* Rendereable.swift */; };
 		5792927D25A6A650005663FA /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792927C25A6A650005663FA /* CurrencyCell.swift */; };
-		5792927E25A6A650005663FA /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792927C25A6A650005663FA /* CurrencyCell.swift */; };
 		5792928425A6B7C2005663FA /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792928325A6B7C2005663FA /* Style.swift */; };
 		5792928F25A7D559005663FA /* ConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792928E25A7D559005663FA /* ConverterView.swift */; };
 		5792929025A7D559005663FA /* ConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5792928E25A7D559005663FA /* ConverterView.swift */; };
@@ -874,13 +868,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5792927E25A6A650005663FA /* CurrencyCell.swift in Sources */,
 				57B18530259A841700EE615A /* CurrencyConverterUITests.swift in Sources */,
-				5768831425A4D76B00430965 /* CurrenciesViewController.swift in Sources */,
-				5768833925A53FD400430965 /* ConverterViewController.swift in Sources */,
-				5768833F25A554E000430965 /* ConverterViewModel.swift in Sources */,
-				5792926E25A69F40005663FA /* ConversionCell.swift in Sources */,
-				5762432F25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
