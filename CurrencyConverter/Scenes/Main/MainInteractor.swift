@@ -110,7 +110,6 @@ class MainInteractor: BindableUpdater {
                 }
                 self.currencies = currencies
                 self.quotes = quotes
-                self.saveData()
                 self.dataLoaded(currencies: currencies, quotes: quotes)
             })
     }
@@ -130,6 +129,7 @@ class MainInteractor: BindableUpdater {
                     self.handleError(error)
                     debugPrint(error.localizedDescription)
                 }
+                self.lastUpdate = Date()
                 self.loadingData(false)
                 self.getCancellable = nil
             }, receiveValue: { [weak self] (currencies, quotes) in
@@ -138,6 +138,7 @@ class MainInteractor: BindableUpdater {
                 }
                 self.currencies = currencies
                 self.quotes = quotes
+                self.saveData()
                 self.dataLoaded(currencies: currencies, quotes: quotes)
             })
     }
@@ -161,7 +162,6 @@ class MainInteractor: BindableUpdater {
 
     private func dataLoaded(currencies: Currencies, quotes: Quotes) {
         handleBindableUpdate(onDataLoadedBindable, value: (currencies, quotes))
-        lastUpdate = Date()
     }
 
     // MARK: - Update

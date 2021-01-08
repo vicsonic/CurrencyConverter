@@ -32,6 +32,8 @@
 		5722730C259BC27400D6ACBF /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572272FD259B9D1A00D6ACBF /* Authenticator.swift */; };
 		57227311259BCD8A00D6ACBF /* list.json in Resources */ = {isa = PBXBuildFile; fileRef = 57227310259BCD8A00D6ACBF /* list.json */; };
 		57227326259BD07300D6ACBF /* CurrencyLayerTestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57227325259BD07300D6ACBF /* CurrencyLayerTestRouter.swift */; };
+		5762432E25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */; };
+		5762432F25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */; };
 		576882E525A4CB0B00430965 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882E425A4CB0B00430965 /* MainInteractor.swift */; };
 		576882E625A4CB0B00430965 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882E425A4CB0B00430965 /* MainInteractor.swift */; };
 		576882EF25A4D26F00430965 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576882EE25A4D26F00430965 /* Bindable.swift */; };
@@ -137,6 +139,7 @@
 		57227302259BA40500D6ACBF /* CurrenciesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesStore.swift; sourceTree = "<group>"; };
 		57227310259BCD8A00D6ACBF /* list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = list.json; sourceTree = "<group>"; };
 		57227325259BD07300D6ACBF /* CurrencyLayerTestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyLayerTestRouter.swift; sourceTree = "<group>"; };
+		5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIRefreshControlExtensions.swift; sourceTree = "<group>"; };
 		576882E425A4CB0B00430965 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
 		576882EE25A4D26F00430965 /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
 		576882FA25A4D34600430965 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -314,6 +317,14 @@
 			path = Currencies;
 			sourceTree = "<group>";
 		};
+		5762432C25A91AF3004AA4F6 /* UIRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				5762432D25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift */,
+			);
+			path = UIRefreshControl;
+			sourceTree = "<group>";
+		};
 		576882ED25A4D26100430965 /* Binding */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,12 +465,12 @@
 		57B18509259A841600EE615A /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
-				570ADCA9259D0A15006970DF /* AppDelegate */,
-				570ADCA5259D09A4006970DF /* Scenes */,
-				57B18574259A913400EE615A /* Extensions */,
-				57B18568259A8F7200EE615A /* Resources */,
 				57B1855D259A8B1500EE615A /* Data */,
+				57B18574259A913400EE615A /* Extensions */,
 				57B18540259A87D200EE615A /* Classes */,
+				570ADCA5259D09A4006970DF /* Scenes */,
+				570ADCA9259D0A15006970DF /* AppDelegate */,
+				57B18568259A8F7200EE615A /* Resources */,
 				57B1851B259A841700EE615A /* Info.plist */,
 				57B18513259A841600EE615A /* CurrencyConverter.xcdatamodeld */,
 			);
@@ -602,6 +613,7 @@
 		57B18574259A913400EE615A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5762432C25A91AF3004AA4F6 /* UIRefreshControl */,
 				5792925925A63A32005663FA /* UITextField */,
 				5768834925A5757B00430965 /* Date */,
 				5776740B25A438CA00EDA736 /* Double */,
@@ -778,6 +790,7 @@
 				57B18515259A841600EE615A /* CurrencyConverter.xcdatamodeld in Sources */,
 				5768833825A53FD400430965 /* ConverterViewController.swift in Sources */,
 				57B1850B259A841600EE615A /* AppDelegate.swift in Sources */,
+				5762432E25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */,
 				576882FB25A4D34600430965 /* MainViewModel.swift in Sources */,
 				5792925B25A63A45005663FA /* UITextFieldExtensions.swift in Sources */,
 				57B185D6259AE68500EE615A /* CurrencyLayerRouter.swift in Sources */,
@@ -867,6 +880,7 @@
 				5768833925A53FD400430965 /* ConverterViewController.swift in Sources */,
 				5768833F25A554E000430965 /* ConverterViewModel.swift in Sources */,
 				5792926E25A69F40005663FA /* ConversionCell.swift in Sources */,
+				5762432F25A91B0C004AA4F6 /* UIRefreshControlExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

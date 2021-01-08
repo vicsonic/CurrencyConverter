@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         setupEvents()
         setupStyle()
 
-        showRefreshControl(true)
+        refreshControl?.beginRefreshing(in: collectionView)
         viewModel.loadData()
     }
 }
@@ -103,8 +103,8 @@ extension MainViewController {
             self?.showRefreshControl(loading)
         }
 
-        viewModel.bindOnError { error in
-            debugPrint(error.localizedDescription)
+        viewModel.bindOnError { [weak self] error in
+            self?.handleError(error)
         }
 
         viewModel.bindOnDataLoaded { [weak self] (currencies, quotes) in
@@ -197,6 +197,34 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.setStyle(ConversionCellStyle())
         cell.update(using: conversion)
         return cell
+    }
+}
+
+// MARK: - Error Handling
+
+extension MainViewController {
+    private func handleError(_ error: Error) {
+        switch error {
+        case AppError.Storage.fileNotFound,
+             AppError.Storage.read,
+             AppError.Storage.write:
+            return
+        default:
+            showErrorAlert()
+        }
+    }
+
+    private func showErrorAlert() {
+        guard presentedViewController == nil || !(presentedViewController is UIAlertController) else {
+            return
+        }
+        let alert = UIAlertController(title: String.Error.title.localized,
+                                      message: String.Error.message.localized,
+                                      preferredStyle: .alert)
+        let ok = UIAlertAction(title: String.Common.ok.localized, style: .default, handler: nil)
+        alert.addAction(ok)
+        let presenter = presentedViewController ?? self
+        presenter.present(alert, animated: true, completion: nil)
     }
 }
 

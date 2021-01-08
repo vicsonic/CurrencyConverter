@@ -28,6 +28,15 @@ extension Localizable where Self: RawRepresentable, Self.RawValue == String {
 }
 
 extension String {
+    enum Common: String, Localizable {
+        case ok
+    }
+
+    enum Error: String, Localizable {
+        case title
+        case message
+    }
+
     enum MainScene: String, Localizable {
         case title
     }

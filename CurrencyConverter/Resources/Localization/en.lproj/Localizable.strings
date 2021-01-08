@@ -6,6 +6,13 @@
   
 */
 
+// Common
+"Common.ok" = "OK";
+
+// Error
+"Error.title" = "Ooops!";
+"Error.message" = "Something unexpected happened, please try again";
+
 // Main
 "MainScene.title" = "Currency Converter";
 
