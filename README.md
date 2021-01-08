@@ -1,5 +1,7 @@
 # Currency Converter Test 💵
 
+![Light Mode](light.png) ![Dark Mode](dark.png)
+
 ## General approach and considerations
 * 100% Swift, with no external dependencies.
 * Using default Apple UI components.
