@@ -60,12 +60,12 @@ extension ConverterViewController {
 
     private func setupTextField() {
         textField.keyboardType = .numbersAndPunctuation
-        textField.placeholder = "Type the quantity"
+        textField.placeholder = String.ConverterScene.textFieldPlaceholder.localized
         textField.returnKeyType = .done
     }
 
     private func setupInitialValues() {
-        textField.text = "1"
+        textField.text = viewModel.amount().toDecimalString()
         textField.sendActions(for: .editingChanged)
     }
 
@@ -115,7 +115,7 @@ extension ConverterViewController {
 extension ConverterViewController {
     private func updateLastUpdate(_ value: String) {
         tableView.beginUpdates()
-        footer?.textLabel?.text = "Data updated on: \(value)"
+        footer?.textLabel?.text = String.ConverterScene.footer.localizedWith(args: [value])
         footer?.sizeToFit()
         tableView.endUpdates()
     }

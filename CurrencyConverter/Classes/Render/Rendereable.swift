@@ -18,7 +18,7 @@ protocol Renderizer {
 
 extension ConversionResult: Rendereable {
     func amount() -> String {
-        String(format: "%.2f", value)
+        value.toDecimalString()
     }
 }
 extension Currency: Rendereable { }

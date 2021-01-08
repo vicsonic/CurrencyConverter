@@ -164,6 +164,8 @@ extension UIRefreshControl: Stylable {
     }
 }
 
+// MARK: - AppStyle
+
 struct AppStyle {
     static func setupStyle() {
         UINavigationBar.setStyle(NavigationBarStyle())

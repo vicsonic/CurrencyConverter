@@ -12,4 +12,8 @@ extension Double {
         let multiplier = pow(10, Double(fractionDigits))
         return Darwin.round(self * multiplier) / multiplier
     }
+
+    func toDecimalString() -> String {
+        String(format: "%.2f", self)
+    }
 }

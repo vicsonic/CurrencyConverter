@@ -43,6 +43,10 @@ class ConverterViewModel {
 
     // MARK: - Data Source
 
+    func amount() -> Double {
+        return interactor.amount
+    }
+
     func currencies() -> Currencies {
         interactor.currencies
     }

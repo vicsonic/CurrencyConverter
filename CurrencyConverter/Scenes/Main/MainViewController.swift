@@ -76,7 +76,7 @@ extension MainViewController {
 extension MainViewController {
 
     private func setupViewController() {
-        title = "Currency Converter"
+        title = String.MainScene.title.localized
         showInterface(false)
         setupCollectionView()
     }

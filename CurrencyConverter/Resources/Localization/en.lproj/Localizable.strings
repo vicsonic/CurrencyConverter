@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  CurrencyConverter
+
+  Created by Victor Soto on 07/01/21.
+  
+*/
+
+// Main
+"MainScene.title" = "Currency Converter";
+
+// Currencies
+"CurrenciesScene.title" = "Select Currency";
+
+// Converter
+"ConverterScene.textFieldPlaceholder" = "Type the amount";
+"ConverterScene.footer" = "Data updated on: %@";

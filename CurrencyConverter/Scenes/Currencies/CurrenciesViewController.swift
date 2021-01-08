@@ -49,7 +49,7 @@ extension CurrenciesViewController {
     }
 
     private func setupViewController() {
-        title = "Select Currency"
+        title = String.CurrenciesScene.title.localized
     }
 
     private func setupStreams() {

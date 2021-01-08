@@ -21,7 +21,7 @@ class ConverterInteractor: BindableUpdater {
     private(set) var selectedCurrencyBindable = Bindable(Currency())
     private(set) var conversionBindable = Bindable(Conversion())
 
-    private var amount: Double {
+    private(set) var amount: Double {
         didSet {
             updateConversion()
         }
